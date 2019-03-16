@@ -100,12 +100,15 @@ public class MyWindows implements ActionListener {
 
             if (!dirUtil.dirIsEmpty()) {
 
+                //Thread for reading fileName
                 Thread fileSolutionThread = new Thread(dirUtil);
                 fileSolutionThread.start();
 
+                //Thread for reading Excel
                 Thread excelReadThread = new Thread(excelUtil);
                 excelReadThread.start();
 
+                //wait for two threads over
                 try {
                     countDownLatch.await();
                 } catch (InterruptedException e1) {
@@ -115,15 +118,19 @@ public class MyWindows implements ActionListener {
                 Solution solution = new Solution(excelUtil, dirUtil);
                 solution.changeAllDSCFileName();
 
-                if( dirUtil.isHasError()) {
-                    JOptionPane.showMessageDialog(con, "重命名失败，请检查", "提示", JOptionPane.WARNING_MESSAGE);
-                }else{
-                    if (!dirUtil.isStudentInfoLess()) {
-                        JOptionPane.showMessageDialog(con, "重命名成功", "提示", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(con, "部分学生被跳过，请检查", "提示", JOptionPane.WARNING_MESSAGE);
-                    }
+                if( solution.isNumberNotEqual()) {
+                    JOptionPane.showMessageDialog(con, "照片个数与学生数不一致,照片:" + dirUtil.getFileNames().size()
+                                    + "个,学生:" + excelUtil.getColumnDateList().size() + "个", "提示", JOptionPane.WARNING_MESSAGE);
                 }
+
+                if (solution.isFileNameExistLength0()) {
+                    JOptionPane.showMessageDialog(con, "表格文件存在学生号码为空，请修改", "提示", JOptionPane.WARNING_MESSAGE);
+                }
+
+                if (solution.isRenameFailed()) {
+                    JOptionPane.showMessageDialog(con, "未知原因，重命名时发生错误", "提示", JOptionPane.WARNING_MESSAGE);
+                }
+
             } else {
                 JOptionPane.showMessageDialog(con, "文件夹为空", "提示", JOptionPane.WARNING_MESSAGE);
             }

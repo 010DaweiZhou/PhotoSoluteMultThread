@@ -1,3 +1,5 @@
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.util.*;
 import java.util.concurrent.CountDownLatch;
@@ -5,8 +7,6 @@ import java.util.concurrent.CountDownLatch;
 public class DirUtil implements Runnable {
     private String pathChoose = null;
     private File childDir = null;
-    private boolean hasError = false;
-    private boolean studentInfoLess = false;
     private CountDownLatch countDownLatch;
     private List<String> fileNames = new ArrayList<>();
 
@@ -114,23 +114,8 @@ public class DirUtil implements Runnable {
         this.childDir = childDir;
     }
 
-    public boolean isHasError() {
-        return hasError;
-    }
-
-    public void setHasError(boolean hasError) {
-        this.hasError = hasError;
-    }
-
     public List<String> getFileNames() {
         return fileNames;
     }
 
-    public boolean isStudentInfoLess() {
-        return studentInfoLess;
-    }
-
-    public void setStudentInfoLess(boolean studentInfoLess) {
-        this.studentInfoLess = studentInfoLess;
-    }
 }

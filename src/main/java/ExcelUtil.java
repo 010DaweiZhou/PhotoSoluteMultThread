@@ -100,8 +100,6 @@ public class ExcelUtil implements Runnable {
         }
         if (nullFlag != 1) {
             columnDateList.add(result.toString());
-        } else {
-            columnDateList.add("");
         }
     }
 
