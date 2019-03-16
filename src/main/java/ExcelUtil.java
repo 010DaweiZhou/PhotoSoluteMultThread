@@ -134,7 +134,15 @@ public class ExcelUtil implements Runnable {
         if (result.contains("\n")) {
             int index = result.lastIndexOf("\n");
             result = result.substring(0, index).trim();
-            return result;
+        }
+
+        if (result.contains("\t")) {
+            int index = result.lastIndexOf("\t");
+            result = result.substring(0, index).trim();
+        }
+
+        if (result.length() == 0) {
+            return null;
         }
 
         return result;
